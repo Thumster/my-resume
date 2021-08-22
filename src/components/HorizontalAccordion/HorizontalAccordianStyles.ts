@@ -130,8 +130,9 @@ export const SectionImageOutter = styled.div`
 `;
 
 export const SectionImage = styled.img<{ active: boolean }>`
-	height: 200%;
-	width: 200%;
+	height: 80%;
+	width: 800%;
+	margin: auto;
 	opacity: 0.7;
 	transition: opacity 500ms ease, height 500ms ease, width 500ms ease;
 	&&:hover {
@@ -148,8 +149,9 @@ export const SectionImage = styled.img<{ active: boolean }>`
 			}
 		`}
 	@media ${device.laptopL} {
-		height: 150%;
-		width: 150%;
+		height: 90%;
+		width: 90%;
+		margin: auto;
 	}
 `;
 
