@@ -72,7 +72,7 @@ export const StyledTabContainer = styled.div`
 	width: 100vw;
 	height: 4.5rem;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-	z-index: 10;
+	z-index: 100;
 	background-color: ${({ theme }) => theme.colours.secondary};
 `;
 

@@ -12,6 +12,8 @@ import {
 	ContentListItemContainer,
 	StyledBackdrop,
 	SectionImageOutter,
+	OuterSectionContent,
+	MainContainer,
 } from './HorizontalAccordianStyles';
 import { device } from '../../config/display';
 
@@ -49,28 +51,45 @@ const HorizontalAccordian = ({ sections }: HAProps): JSX.Element => {
 	}, [inView]);
 
 	return (
-		<SectionsMenu aria-label="sections-menu" ref={ref}>
-			{activeIndex !== null && <StyledBackdrop onClick={closeMenu} />}
-			{sections.map((experience, i) => (
-				<Section
-					sectionInfo={experience}
-					key={experience.title}
-					handleClick={() => {
-						if (activeIndex === i) {
-							setActiveIndex(null);
-							setOpen(false);
-						} else {
-							setActiveIndex(i);
-							setOpen(true);
-						}
-					}}
-					active={i === activeIndex}
-					focused={open}
-					shiftLeft={activeIndex != null && i < activeIndex}
-					isLast={i >= Math.floor((sections.length + 1) / 2)}
-				/>
-			))}
-		</SectionsMenu>
+		<Media queries={{ bigScreen: device.laptopL, smallScreen: device.tablet }}>
+			{(matches) => (
+				<MainContainer aria-label="main-container" ref={ref}>
+					<SectionsMenu aria-label="sections-menu">
+						{activeIndex !== null && <StyledBackdrop onClick={closeMenu} />}
+						{sections.map((experience, i) => (
+							<Section
+								sectionInfo={experience}
+								key={experience.title}
+								handleClick={() => {
+									if (activeIndex === i) {
+										setActiveIndex(null);
+										setOpen(false);
+									} else {
+										setActiveIndex(i);
+										setOpen(true);
+									}
+								}}
+								active={i === activeIndex}
+								focused={open}
+								shiftLeft={activeIndex != null && i < activeIndex}
+								isLast={i >= Math.floor((sections.length + 1) / 2)}
+							/>
+						))}
+					</SectionsMenu>
+					{matches.smallScreen && activeIndex !== null && (
+						<OuterSectionContent aria-label="section-content" active={open}>
+							<h2 className="title-main">{sections[activeIndex].title}</h2>
+							{sections[activeIndex].subtitle && (
+								<h3 className="title-sub">{sections[activeIndex].subtitle}</h3>
+							)}
+							<SectionContentList
+								sectionContent={sections[activeIndex].contentListItems}
+							/>
+						</OuterSectionContent>
+					)}
+				</MainContainer>
+			)}
+		</Media>
 	);
 };
 
@@ -92,7 +111,7 @@ const Section = ({
 	const { image, title, shortenedTitle, subtitle, contentListItems } =
 		sectionInfo;
 	return (
-		<Media query={device.laptopL}>
+		<Media queries={{ bigScreen: device.laptopL, smallScreen: device.tablet }}>
 			{(matches) => (
 				<SectionContainer
 					aria-label="section-container"
@@ -100,15 +119,17 @@ const Section = ({
 					shiftLeft={shiftLeft}
 					focused={focused}
 				>
-					<SectionContent
-						aria-label="section-content"
-						active={active}
-						isLast={isLast}
-					>
-						<h2 className="title-main">{title}</h2>
-						{subtitle && <h3 className="title-sub">{subtitle}</h3>}
-						<SectionContentList sectionContent={contentListItems} />
-					</SectionContent>
+					{!matches.smallScreen && (
+						<SectionContent
+							aria-label="section-content"
+							active={active}
+							isLast={isLast}
+						>
+							<h2 className="title-main">{title}</h2>
+							{subtitle && <h3 className="title-sub">{subtitle}</h3>}
+							<SectionContentList sectionContent={contentListItems} />
+						</SectionContent>
+					)}
 					<SectionImageContainer
 						aria-label="section-image-container"
 						onClick={() => handleClick()}
@@ -123,7 +144,7 @@ const Section = ({
 						</SectionImageOutter>
 					</SectionImageContainer>
 					<SectionName aria-label="section-name">
-						<h6>{matches ? shortenedTitle : title}</h6>
+						<h6>{matches.bigScreen ? shortenedTitle : title}</h6>
 					</SectionName>
 				</SectionContainer>
 			)}

@@ -358,7 +358,7 @@ export const appContent: ContentSectionType[] = [
 				{
 					title: 'National University of Singapore',
 					shortenedTitle: 'NUS',
-					subtitle: 'Aug 2019 - Dec2021',
+					subtitle: 'Aug 2019 - Dec 2021',
 					image: logoNUS,
 					contentListItems: [
 						{

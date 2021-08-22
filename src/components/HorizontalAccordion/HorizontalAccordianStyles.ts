@@ -10,18 +10,24 @@ export const StyledBackdrop = styled.div`
 	backdrop-filter: blur(2px);
 `;
 
-export const SectionsMenu = styled.div`
+export const MainContainer = styled.div`
 	display: flex;
-	justify-content: center;
+	flex-wrap: wrap;
 	padding: 3rem 20rem;
-	align-items: stretch;
-	box-sizing: border-box;
 	@media ${device.laptopL} {
 		padding: 3rem 10rem;
 	}
 	@media ${device.laptop} {
-		padding: 3rem 5rem;
+		padding: 3rem 1rem;
 	}
+`;
+
+export const SectionsMenu = styled.div`
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	box-sizing: border-box;
+	align-items: stretch;
 `;
 
 export const SectionName = styled.div`
@@ -107,13 +113,6 @@ export const SectionImageContainer = styled.div<{ active: boolean }>`
 	flex: 1;
 	position: relative;
 	padding-top: calc(100% / 3 * 4);
-	${({ active }) =>
-		active &&
-		css`
-			@media ${device.tablet} {
-				min-width: 30vw;
-			}
-		`}
 `;
 
 export const SectionImageOutter = styled.div`
@@ -141,9 +140,9 @@ export const SectionImage = styled.img<{ active: boolean }>`
 	${({ active }) =>
 		active &&
 		css`
-			height: 100%;
-			width: 100%;
 			&& {
+				height: 100%;
+				width: 100%;
 				opacity: 0.75;
 			}
 		`}
@@ -153,12 +152,8 @@ export const SectionImage = styled.img<{ active: boolean }>`
 	}
 `;
 
-export const SectionContent = styled.div<{ active: boolean; isLast: boolean }>`
-	flex: 1;
-	position: absolute;
-	width: 100%;
-	min-width: 20vw;
-	transition: opacity 1s ease;
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const sharedSectionContent = (active: boolean) => css`
 	.title-main,
 	.title-sub {
 		margin: 0 0 1rem 0;
@@ -174,25 +169,39 @@ export const SectionContent = styled.div<{ active: boolean; isLast: boolean }>`
 		filter: brightness(80%);
 		margin-bottom: 2rem;
 	}
+	transition: opacity 1s ease;
 
-	${({ active }) =>
-		active
-			? css`
-					z-index: 99;
-					visibility: visible;
+	${active
+		? css`
+				z-index: 99;
+				visibility: visible;
+				opacity: 1;
+				${ContentListContainer} {
 					opacity: 1;
-					${ContentListContainer} {
-						opacity: 1;
-					}
-			  `
-			: css`
-					z-index: -1;
-					visibility: hidden;
+				}
+		  `
+		: css`
+				z-index: -1;
+				visibility: hidden;
+				opacity: 0;
+				${ContentListContainer} {
 					opacity: 0;
-					${ContentListContainer} {
-						opacity: 0;
-					}
-			  `}
+				}
+		  `}
+`;
+export const OuterSectionContent = styled.div<{ active: boolean }>`
+	${({ active }) => sharedSectionContent(active)}
+	flex: 0 0 100%;
+	${ContentListContainer} {
+		text-align: justify;
+	}
+`;
+export const SectionContent = styled.div<{ active: boolean; isLast: boolean }>`
+	${({ active }) => sharedSectionContent(active)}
+	flex: 1;
+	position: absolute;
+	width: 100%;
+	min-width: 30vw;
 
 	${({ isLast }) =>
 		isLast
