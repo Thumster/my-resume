@@ -19,8 +19,8 @@ export const animateLTRVariants = {
 };
 
 export const animateAppearVariants = {
-	original: { opacity: 1 },
-	hidden: { opacity: 0 },
+	animate: { opacity: 1 },
+	initial: { opacity: 0 },
 };
 
 export const animateUpDownMenuVariants = {

@@ -71,9 +71,9 @@ const SkillDonutChart = ({
 				{active && (
 					<PieChartLabel
 						variants={animateAppearVariants}
-						initial={animateAppearVariants.hidden}
-						animate={animateAppearVariants.original}
-						exit={animateAppearVariants.hidden}
+						initial={animateAppearVariants.initial}
+						animate={animateAppearVariants.animate}
+						exit={animateAppearVariants.initial}
 						transition={{ delay: 0.2, duration: 0.2 }}
 					>
 						{label}
