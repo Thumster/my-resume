@@ -75,19 +75,28 @@ const App = (): JSX.Element => {
 		}
 	};
 
-	const handleScrollAndResize = (): void => {
+	const handleScroll = (): void => {
 		const stickyNav = checkNavigationToSticky();
 		if (!stickyNav) {
 			checkCurrentTabSelector();
 		}
 	};
 
+	const handResize = (): void => {
+		const previousTab = currentTabIdx;
+		if (previousTab) {
+			const target = refSections.current[previousTab];
+			target?.scrollIntoView();
+		}
+		handleScroll();
+	};
+
 	useEffect(() => {
-		window.addEventListener('scroll', handleScrollAndResize);
-		window.addEventListener('resize', handleScrollAndResize);
+		window.addEventListener('scroll', handleScroll);
+		window.addEventListener('resize', handResize);
 		return () => {
-			window.removeEventListener('scroll', handleScrollAndResize);
-			window.removeEventListener('resize', handleScrollAndResize);
+			window.removeEventListener('scroll', handleScroll);
+			window.removeEventListener('resize', handResize);
 		};
 	});
 
